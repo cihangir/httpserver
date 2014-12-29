@@ -6,6 +6,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// Server is a high performance simple configurable Go HTTP server
 type Server struct {
 	// Router holds a performant router for requests
 	Router *httprouter.Router
@@ -24,10 +25,12 @@ func New(middlewares ...func(http.Handler) http.Handler) *Server {
 	return s
 }
 
+// ServeHTTP implements Handler interface
 func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	NewHandler(s.Router, s.Middlewares...).ServeHTTP(w, req)
 }
 
+// ListenAndServe serves the server with default http mux
 func (s *Server) ListenAndServe(addr string) error {
 	// ListenAndServe will block
 	//
@@ -37,26 +40,27 @@ func (s *Server) ListenAndServe(addr string) error {
 	return err
 }
 
+// Handle passes handlers to the router
 func (s *Server) Handle(method, p string, h http.Handler) {
 	s.Router.Handler(method, p, h)
 }
 
-// POST is a shortcut for Server.Handle("POST", p, handle)
+// Post is a shortcut for Server.Handle("POST", p, handle)
 func (s *Server) Post(p string, handler http.Handler) {
 	s.Handle("POST", p, handler)
 }
 
-// GET is a shortcut for Server.Handle("GET", p, handle)
+// Get is a shortcut for Server.Handle("GET", p, handle)
 func (s *Server) Get(p string, handler http.Handler) {
 	s.Handle("GET", p, handler)
 }
 
-// OPTIONS is a shortcut for Server.Handle("OPTIONS", p, handle)
+// Options is a shortcut for Server.Handle("OPTIONS", p, handle)
 func (s *Server) Options(p string, handler http.Handler) {
 	s.Handle("OPTIONS", p, handler)
 }
 
-// HEAD is a shortcut for Server.Handle("HEAD", p, handle)
+// Head is a shortcut for Server.Handle("HEAD", p, handle)
 func (s *Server) Head(p string, handler http.Handler) {
 	s.Handle("HEAD", p, handler)
 }
