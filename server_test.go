@@ -45,7 +45,7 @@ func TestGlobal(t *testing.T) {
 	defer l.Close()
 
 	const expected = "1Hello, World!1"
-	expect(t, createAddr(l, "/1"), expected)
+	process(t, createAddr(l, "/1"), expected)
 
 }
 
@@ -57,7 +57,7 @@ func TestHandler(t *testing.T) {
 	defer l.Close()
 
 	const expected = "123Hello, World!321"
-	expect(t, createAddr(l, "/1"), expected)
+	process(t, createAddr(l, "/1"), expected)
 
 }
 
@@ -69,10 +69,10 @@ func TestClean(t *testing.T) {
 	defer l.Close()
 
 	const expected = "Hello, World!"
-	expect(t, createAddr(l, "/1"), expected)
+	process(t, createAddr(l, "/1"), expected)
 }
 
-func expect(t *testing.T, url string, expected string) {
+func process(t *testing.T, url string, expected string) {
 	resp, err := http.Get(url)
 	if err != nil {
 		t.Fatal(err.Error())
