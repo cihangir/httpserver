@@ -9,8 +9,6 @@ A high performance simple configurable Go HTTP server that is compatible with ht
 ```go
 package main
 
-
-
 import "github.com/cihangir/httpserver"
 
 func middleware(next http.Handler) http.Handler {
@@ -72,5 +70,7 @@ Execution of the handlers are not bi-directional, you can wrap all handler with 
 
 ## Features
 **Simple:** Compatible with stdlib's handler structure
+
 **Pluggable:** You can have global and handler based middlewares
+
 **Performant:** It uses [julienschmidt/httprouter](https://github.com/julienschmidt/go-http-routing-benchmark) as router
