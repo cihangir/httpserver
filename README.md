@@ -9,14 +9,35 @@ A high performance simple configurable Go HTTP server that is compatible with ht
 ```go
 package main
 
+
+
 import "github.com/cihangir/httpserver"
 
+func middleware(next http.Handler) http.Handler {
+    fn := func(rw http.ResponseWriter, req *http.Request) {
+        // do first
+        next.ServeHTTP(rw, req)
+        // do then
+    }
+
+    return http.HandlerFunc(fn)
+}
+
 func main() {
-    s := httpserver.New(globalMiddleware1)
+    s := httpserver.New(middleware)
     s.Get("/1", helloer)
-    s.Get("/2", httpserver.NewHandler(http.HandlerFunc(helloer), localMiddleware2, localMiddleware2))
+    s.Get("/2", httpserver.NewHandler(
+        http.HandlerFunc(helloer),
+        middleware2,
+        middleware3,
+    ))
     s.ListenAndServe(addr)
 }
+
+func helloer(rw http.ResponseWriter, req *http.Request) {
+    io.WriteString(rw, "Hello, World!")
+}
+
 ```
 
 ##Middlewares
