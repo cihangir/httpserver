@@ -74,3 +74,17 @@ Execution of the handlers are not bi-directional, you can wrap all handler with 
 **Pluggable:** You can have global and handler based middlewares
 
 **Performant:** It uses [julienschmidt/httprouter](https://github.com/julienschmidt/go-http-routing-benchmark) as router
+
+## Install and Usage
+
+Install the package with:
+
+```bash
+go get github.com/cihangir/httpserver
+```
+
+Import it with:
+
+```go
+import "github.com/cihangir/httpserver"
+```
